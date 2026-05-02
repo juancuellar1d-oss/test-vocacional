@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vocacional</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-center mb-0">Test Vocacional</h2>
+            <div>
+                <a href="IA.html" class="btn btn-outline-secondary">Ir al Chatbot</a>
+            </div>
+        </div>
+        <form id="vocationalTest" action="#" method="post" novalidate>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="participantName">Nombre</label>
+                    <input type="text" id="participantName" name="participantName" class="form-control" placeholder="Tu nombre" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="participantGroup">Grupo</label>
+                    <input type="text" id="participantGroup" name="participantGroup" class="form-control" placeholder="Tu grupo / sección">
+                </div>
+            </div>
+            
+            <hr>
+            <h4 class="text-center">Selecciona una opción para cada pregunta</h4>
+
+            <p>1. ¿Qué prefieres?</p>
+            <input type="radio" id="q1a" name="q1" value="Artistico" required>
+            <label for="q1a"> Ser un(a) artista.</label><br>
+            <input type="radio" id="q1b" name="q1" value="Agropecuario">
+            <label for="q1b"> Dirigir la crianza de ganado.</label><br><br>
+
+            <p>2. ¿Qué prefieres?</p>
+            <input type="radio" id="q2a" name="q2" value="Tecnologico" required>
+            <label for="q2a">Conocer datos útiles para navegar en internet.</label><br>
+            <input type="radio" id="q2b" name="q2" value="Cientifico">
+            <label for="q2b">Dar charlas sobre química.</label><br><br>
+
+            <p>3. ¿Qué prefieres?</p>
+            <input type="radio" id="q3a" name="q3" value="Creativo" required>
+            <label for="q3a">Trabajar en una agencia de publicidad.</label><br>
+            <input type="radio" id="q3b" name="q3" value="Agropecuario">
+            <label for="q3b"> Estudiar métodos de regadío.</label><br><br>
+
+            <p>4. ¿Que prefieres?</p>
+            <input type="radio" id="q4a" name="q4" value="Social" required>
+            <label for="q4a">Tomar clases de locución y expresión corporal.</label><br>
+            <input type="radio" id="q4b" name="q4" value="Cientifico">
+            <label for="q4b">Realizar experimentos.</label><br><br>
+
+            <p>5. ¿Que prefieres?</p>
+            <input type="radio" id="q5a" name="q5" value="Artistico" required>
+            <label for="q5a">Ilustrar cuentos infantiles.</label><br>
+            <input type="radio" id="q5b" name="q5" value="Social">
+            <label for="q5b">Ser protagonista de una obra de teatro.</label><br><br>
+
+            <p>6. ¿Que prefieres?</p>
+            <input type="radio" id="q6a" name="q6" value="Social" required>
+            <label for="q6a">Animar un programa de televisión.</label><br>
+            <input type="radio" id="q6b" name="q6" value="Artistico">
+            <label for="q6b">Crear el vestuario para una obra de teatro.</label><br><br>
+
+            <!-- BUG CORREGIDO: pregunta 7 tenía ambas opciones con value="Social" -->
+            <p>7. ¿Que prefieres?</p>
+            <input type="radio" id="q7a" name="q7" value="Social" required>
+            <label for="q7a">Ser guía de excursiones.</label><br>
+            <input type="radio" id="q7b" name="q7" value="Creativo">
+            <label for="q7b"> Participar en campaña de ayuda a niños discapacitados.</label><br><br>
+
+            <!-- BUG CORREGIDO: pregunta 8 tenía ambas opciones con value="Artistico" -->
+            <p>8. ¿Que prefieres?</p>
+            <input type="radio" id="q8a" name="q8" value="Artistico" required>
+            <label for="q8a"> Aprender bailes folclóricos.</label><br>
+            <input type="radio" id="q8b" name="q8" value="Tecnologico">
+            <label for="q8b">Ser escultor(a).</label><br><br>
+
+            <p>9. ¿Que prefieres?</p>
+            <input type="radio" id="q9a" name="q9" value="Tecnologico" required>
+            <label for="q9a">Trabajar como soporte técnico computacional.</label><br>
+            <input type="radio" id="q9b" name="q9" value="Social">
+            <label for="q9b">Asistir a una conferencia sobre los derechos de los trabajadores.</label><br><br>
+
+            <p>10. ¿Que prefieres?</p>
+            <input type="radio" id="q10a" name="q10" value="Tecnologico" required>
+            <label for="q10a"> Enseñar cómo funciona un motor de avión.</label><br>
+            <input type="radio" id="q10b" name="q10" value="Agropecuario">
+            <label for="q10b"> Dirigir la clasificación de fruta según su calidad.</label><br><br>
+
+            <p>11. ¿Que prefieres?</p>
+            <input type="radio" id="q11a" name="q11" value="Social" required>
+            <label for="q11a">Participar en un Comité de Navidad recolectando juguetes para niños de escasos recursos.</label><br>
+            <input type="radio" id="q11b" name="q11" value="Creativo">
+            <label for="q11b"> Organizar un evento cultural para la comunidad.</label><br><br>
+
+            <p>12. ¿Que prefieres?</p>
+            <input type="radio" id="q12a" name="q12" value="Creativo" required>
+            <label for="q12a"> Crear afiches para una agencia de publicidad.</label><br>
+            <input type="radio" id="q12b" name="q12" value="Tecnologico">
+            <label for="q12b"> Saber armar y desarmar computadores.</label><br><br>
+
+            <p>13. ¿Que prefieres?</p>
+            <input type="radio" id="q13a" name="q13" value="Social" required>
+            <label for="q13a"> Intervenir en un conflicto familiar ante tribunales de justicia.</label><br>
+            <input type="radio" id="q13b" name="q13" value="Creativo">
+            <label for="q13b"> Ser relacionador(a) público(a) de una empresa.</label><br><br>
+
+            <p>14. ¿Que prefieres?</p>
+            <input type="radio" id="q14a" name="q14" value="Artistico" required>
+            <label for="q14a"> Dirigir una función teatral de aficionados.</label><br>
+            <input type="radio" id="q14b" name="q14" value="Tecnologico">
+            <label for="q14b">  Investigar sobre los nuevos usos de las matemáticas.</label><br><br>
+
+            <p>15. ¿Que prefieres?</p>
+            <input type="radio" id="q15a" name="q15" value="Social" required>
+            <label for="q15a"> Aprender estadística.</label><br>
+            <input type="radio" id="q15b" name="q15" value="Artistico">
+            <label for="q15b">Ser conocido(a) como un(a) buen(a) escritor(a).</label><br><br>
+
+            <!-- BUG CORREGIDO: pregunta 16 tenía ambas opciones con value="Tecnologico" -->
+            <p>16. ¿Que prefieres?</p>
+            <input type="radio" id="q16a" name="q16" value="Tecnologico" required>
+            <label for="q16a">Ser programador(a) en computación.</label><br>
+            <input type="radio" id="q16b" name="q16" value="Tecnico">
+            <label for="q16b">Manejar aparatos y máquinas industriales como prensas, tornos, etc.</label><br><br>
+
+            <p>17. ¿Que prefieres?</p>
+            <input type="radio" id="q17a" name="q17" value="Cientifico" required>
+            <label for="q17a">Efectuar análisis de muestras de sangre.</label><br>
+            <input type="radio" id="q17b" name="q17" value="Social">
+            <label for="q17b">Investigar las causas de enfermedades mentales.</label><br><br>
+
+            <p>18. ¿Que prefieres?</p>
+            <input type="radio" id="q18a" name="q18" value="Artistico" required>
+            <label for="q18a">Pertenecer a una Academia Literaria.</label><br>
+            <input type="radio" id="q18b" name="q18" value="Agropecuario">
+            <label for="q18b">Tener a cargo el equipo agrícola en su fundo.</label><br><br>
+
+            <p>19. ¿Que prefieres?</p>
+            <input type="radio" id="q19a" name="q19" value="Artistico" required>
+            <label for="q19a"> Pertenecer a un grupo musical.</label><br>
+            <input type="radio" id="q19b" name="q19" value="Cientifico">
+            <label for="q19b">Ser dentista.</label><br><br>
+
+            <p>20. ¿Que prefieres?</p>
+            <input type="radio" id="q20a" name="q20" value="Social" required>
+            <label for="q20a"> Ayudar a niños con dificultades de aprendizaje.</label><br>
+            <input type="radio" id="q20b" name="q20" value="Tecnologico">
+            <label for="q20b"> Dirigir investigaciones sobre televisión.</label><br><br>
+
+            <p>21. ¿Qué prefieres?</p>
+            <input type="radio" id="q21a" name="q21" value="Creativo" required>
+            <label for="q21a">Realizar un estudio sobre el desarrollo económico en una empresa.</label><br>
+            <input type="radio" id="q21b" name="q21" value="Artistico">
+            <label for="q21b"> Pintar loza.</label><br><br>
+
+            <p>22. ¿Qué prefieres?</p>
+            <input type="radio" id="q22a" name="q22" value="Creativo" required>
+            <label for="q22a">Ser gerente de ventas de una revista.</label><br>
+            <input type="radio" id="q22b" name="q22" value="Tecnologico">
+            <label for="q22b">Manejar bases de datos.</label><br><br>
+
+            <p>23. ¿Qué prefieres?</p>
+            <input type="radio" id="q23a" name="q23" value="Social" required>
+            <label for="q23a">Investigar los roles del hombre y de la mujer en algunas sociedades primitivas.</label><br>
+            <input type="radio" id="q23b" name="q23" value="Artistico">
+            <label for="q23b">Inventar nuevas formas de poesía.</label><br><br>
+
+            <p>24. ¿Que prefieres?</p>
+            <input type="radio" id="q24a" name="q24" value="Artistico" required>
+            <label for="q24a">Inventar nuevas formas de poesía.</label><br>
+            <input type="radio" id="q24b" name="q24" value="Social">
+            <label for="q24b">Entrevistar aspirantes a un empleo.</label><br><br>
+
+            <p>25. ¿Que prefieres?</p>
+            <input type="radio" id="q25a" name="q25" value="Cientifico" required>
+            <label for="q25a">Ser químico(a).</label><br>
+            <input type="radio" id="q25b" name="q25" value="Tecnologico">
+            <label for="q25b">Leer artículos acerca de los avances tecnológicos en computación.</label><br><br>
+
+            <p>26. ¿Que prefieres?</p>
+            <input type="radio" id="q26a" name="q26" value="Cientifico" required>
+            <label for="q26a">Seguir un curso de biología.</label><br>
+            <input type="radio" id="q26b" name="q26" value="Artistico">
+            <label for="q26b">Escribir una obra de teatro.</label><br><br>
+
+            <p>27. ¿Que prefieres?</p>
+            <input type="radio" id="q27a" name="q27" value="Artistico" required>
+            <label for="q27a">Dar una conferencia sobre literatura universal.</label><br>
+            <input type="radio" id="q27b" name="q27" value="Social">
+            <label for="q27b">Asistir a la ceremonia de entrega de los premios Oscar.</label><br><br>
+
+            <p>28. ¿Que prefieres?</p>
+            <input type="radio" id="q28a" name="q28" value="Artistico" required>
+            <label for="q28a">Ser el (la) director(a) de una película.</label><br>
+            <input type="radio" id="q28b" name="q28" value="Cientifico">
+            <label for="q28b">Ser experto(a) en cuidar árboles.</label><br><br>
+
+            <p>29. ¿Que prefieres?</p>
+            <input type="radio" id="q29a" name="q29" value="Tecnologico" required>
+            <label for="q29a">Mantener en buen estado y reparar calculadoras electrónicas.</label><br>
+            <input type="radio" id="q29b" name="q29" value="Artistico">
+            <label for="q29b">Componer música.</label><br><br>
+
+            <p>30. ¿Que prefieres?</p>
+            <input type="radio" id="q30a" name="q30" value="Social" required>
+            <label for="q30a">Ayudar en un servicio de Asistencia Social.</label><br>
+            <input type="radio" id="q30b" name="q30" value="Tecnologico">
+            <label for="q30b">Arreglar un motor.</label><br><br>
+
+            <!-- BUG CORREGIDO: pregunta 31 tenía ambas opciones con value="Social" -->
+            <p>31. ¿Que prefieres?</p>
+            <input type="radio" id="q31a" name="q31" value="Creativo" required>
+            <label for="q31a">Calcular el costo de producción de un artículo.</label><br>
+            <input type="radio" id="q31b" name="q31" value="Social">
+            <label for="q31b">Recolectar dinero para obras sociales.</label><br><br>
+
+            <p>32. ¿Que prefieres?</p>
+            <input type="radio" id="q32a" name="q32" value="Social" required>
+            <label for="q32a"> Solucionar conflictos interpersonales.</label><br>
+            <input type="radio" id="q32b" name="q32" value="Artistico">
+            <label for="q32b">Escribir el guión para una película.</label><br><br>
+
+            <p>33. ¿Que prefieres?</p>
+            <input type="radio" id="q33a" name="q33" value="Tecnologico" required>
+            <label for="q33a">Diseñar equipos para excursionistas.</label><br>
+            <input type="radio" id="q33b" name="q33" value="Creativo">
+            <label for="q33b">Confeccionar el presupuesto de materiales para una empresa.</label><br><br>
+
+            <p>34. ¿Que prefieres?</p>
+            <input type="radio" id="q34a" name="q34" value="Creativo" required>
+            <label for="q34a"> Ser el rostro de un producto recién lanzado al mercado.</label><br>
+            <input type="radio" id="q34b" name="q34" value="Social">
+            <label for="q34b">Dictar un curso sobre sistemas de rendimiento en las oficinas.</label><br><br>
+
+            <p>35. ¿Que prefieres?</p>
+            <input type="radio" id="q35a" name="q35" value="Agropecuario" required>
+            <label for="q35a">Analizar la calidad de la tierra para fines agrícolas.</label><br>
+            <input type="radio" id="q35b" name="q35" value="Tecnologico">
+            <label for="q35b"> Instalar redes internas en diversas empresas.</label><br><br>
+
+            <p>36. ¿Que prefieres?</p>
+            <input type="radio" id="q36a" name="q36" value="Agropecuario" required>
+            <label for="q36a">Asistir a una conferencia sobre nuevos métodos para aprovechar la madera.</label><br>
+            <input type="radio" id="q36b" name="q36" value="Social">
+            <label for="q36b">Realizar el balance anual de una empresa.</label><br><br>
+
+            <p>37. ¿Que prefieres?</p>
+            <input type="radio" id="q37a" name="q37" value="Creativo" required>
+            <label for="q37a">Planificar campañas de publicidad.</label><br>
+            <input type="radio" id="q37b" name="q37" value="Artistico">
+            <label for="q37b">Estudiar ballet.</label><br><br>
+
+            <p>38. ¿Que prefieres?</p>
+            <input type="radio" id="q38a" name="q38" value="Cientifico" required>
+            <label for="q38a">Hacer análisis químicos de nuevos productos.</label><br>
+            <input type="radio" id="q38b" name="q38" value="Agropecuario">
+            <label for="q38b">Cultivar verduras para el mercado.</label><br><br>
+
+            <p>39. ¿Que prefieres?</p>
+            <input type="radio" id="q39a" name="q39" value="Tecnologico" required>
+            <label for="q39a">Reparar fallas de artefactos electrónicos (planchas, jugueras, secadores de pelo, etc).</label><br>
+            <input type="radio" id="q39b" name="q39" value="Artistico">
+            <label for="q39b">Escribir para una revista de arte.</label><br><br>
+
+            <p>40. ¿Que prefieres?</p>
+            <input type="radio" id="q40a" name="q40" value="Artistico" required>
+            <label for="q40a">Arreglar música para una orquesta.</label><br>
+            <input type="radio" id="q40b" name="q40" value="Cientifico">
+            <label for="q40b">Inventar problemas matemáticos.</label><br><br>
+
+            <p>41. ¿Que prefieres?</p>
+            <input type="radio" id="q41a" name="q41" value="Social" required>
+            <label for="q41a">Recomendar sitios de veraneo.</label><br>
+            <input type="radio" id="q41b" name="q41" value="Artistico">
+            <label for="q41b">Ser el (la) autor(a) de un libro.</label><br><br>
+
+            <p>42. ¿Que prefieres?</p>
+            <input type="radio" id="q42a" name="q42" value="Artistico" required>
+            <label for="q42a">Seguir un curso de literatura moderna.</label><br>
+            <input type="radio" id="q42b" name="q42" value="Creativo">
+            <label for="q42b">Calcular las ganancias y pérdidas de un producto.</label><br><br>
+
+            <p>43. ¿Que prefieres?</p>
+            <input type="radio" id="q43a" name="q43" value="Artistico" required>
+            <label for="q43a">Diseñar joyas.</label><br>
+            <input type="radio" id="q43b" name="q43" value="Social">
+            <label for="q43b">Participar en una campaña contra el alcoholismo.</label><br><br>
+
+            <p>44. ¿Que prefieres?</p>
+            <input type="radio" id="q44a" name="q44" value="Social" required>
+            <label for="q44a">Dirigir y supervisar a los empleados de una oficina.</label><br>
+            <input type="radio" id="q44b" name="q44" value="Cientifico">
+            <label for="q44b">Ser secretario(a) de un científico famoso.</label><br><br>
+
+            <!-- BUG CORREGIDO: pregunta 45 tenía ambas opciones con value="Artistico" y texto duplicado -->
+            <p>45. ¿Que prefieres?</p>
+            <input type="radio" id="q45a" name="q45" value="Artistico" required>
+            <label for="q45a">Enseñar sobre los diferentes estilos literarios.</label><br>
+            <input type="radio" id="q45b" name="q45" value="Social">
+            <label for="q45b">Cantar en un coro.</label><br><br>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="button" id="resetBtn" class="btn btn-secondary ms-2">Limpiar</button>
+            </div>
+        </form>
+
+        <div id="result" class="mt-4" style="display:none;"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+        const descriptions = {
+            'Artistico':    'Tienes inclinación por las artes visuales, el diseño y la expresión creativa. Carreras: Artes Plásticas, Diseño, Ilustración, Teatro, Danza.',
+            'Agropecuario': 'Te interesan actividades relacionadas con la producción agrícola y la gestión de recursos. Carreras: Agronomía, Zootecnia, Ciencias Agropecuarias.',
+            'Tecnologico':  'Disfrutas la tecnología y el trabajo técnico. Carreras: Ingeniería, Soporte Técnico, Informática, Mecatrónica.',
+            'Cientifico':   'Te interesa investigar, experimentar y enseñar ciencias. Carreras: Química, Biología, Investigación Científica.',
+            'Creativo':     'Interés en comunicación, publicidad y creación de contenidos. Carreras: Publicidad, Comunicación, Marketing, Diseño.',
+            'Social':       'Te atrae el trabajo con personas y comunidades. Carreras: Psicología, Trabajo Social, Educación, Comunicación Social.',
+            'Tecnico':      'Te gustan los procesos manuales e industriales. Carreras: Mecánica, Electrónica, Manufactura.'
+        };
+
+        const form = document.getElementById('vocationalTest');
+        const resultDiv = document.getElementById('result');
+        const resetBtn = document.getElementById('resetBtn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // BUG CORREGIDO: validar nombre PRIMERO, antes de cualquier otra acción
+            const nameInput = document.getElementById('participantName');
+            const groupInput = document.getElementById('participantGroup');
+            const participantName = nameInput?.value?.trim() || '';
+            const participantGroup = groupInput?.value?.trim() || '';
+
+            if (!participantName) {
+                alert('Por favor ingresa tu nombre antes de enviar el test.');
+                nameInput.focus();
+                return;
+            }
+
+            // Detectar todas las preguntas dinámicamente
+            const radioInputs = Array.from(form.querySelectorAll('input[type="radio"]'));
+            const questionNames = Array.from(new Set(radioInputs.map(r => r.name).filter(n => /^q\d+$/.test(n))));
+            questionNames.sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+
+            // Recolectar respuestas
+            const answers = [];
+            for (let idx = 0; idx < questionNames.length; idx++) {
+                const qName = questionNames[idx];
+                const sel = form.querySelector('input[name="' + qName + '"]:checked');
+                const qNumber = idx + 1;
+                if (!sel) {
+                    // BUG CORREGIDO: espacio antes del número
+                    alert('Por favor responde todas las preguntas. Falta la pregunta número ' + qNumber + '.');
+                    return;
+                }
+                answers.push(sel.value);
+            }
+
+            // Contar categorías
+            const counts = {};
+            answers.forEach(a => counts[a] = (counts[a] || 0) + 1);
+
+            // Encontrar la(s) categoría(s) con mayor puntaje
+            let max = 0;
+            Object.values(counts).forEach(v => { if (v > max) max = v; });
+            const winners = Object.keys(counts).filter(k => counts[k] === max);
+
+            // Mostrar resultado
+            let html = '<div class="card"><div class="card-body">';
+            html += '<h4 class="card-title">Resultado del Test</h4>';
+            html += '<p>Has obtenido <strong>' + max + '</strong> respuestas en la(s) categoría(s): <em>' + winners.join(', ') + '</em>.</p>';
+            winners.forEach(w => {
+                const desc = descriptions[w] || 'Descripción no disponible.';
+                html += '<h5>' + w + '</h5><p>' + desc + '</p>';
+            });
+            html += '<hr><h6>Distribución de respuestas:</h6><ul>';
+            Object.keys(counts).forEach(k => { html += '<li>' + k + ': ' + counts[k] + '</li>'; });
+            html += '</ul>';
+            html += '<div class="mt-2"><a href="IA.html" class="btn btn-link">Volver al Chat</a></div>';
+            html += '</div></div>';
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+
+            // Guardar top 3 en localStorage
+            try {
+                const entries = Object.keys(counts).map(k => ({ category: k, count: counts[k] }));
+                entries.sort((a, b) => b.count - a.count);
+                const top3 = entries.slice(0, 3);
+                const summary = {
+                    timestamp: new Date().toISOString(),
+                    top3: top3,
+                    counts: counts,
+                    name: participantName,
+                    group: participantGroup
+                };
+                localStorage.setItem('ultimo_test_vocacional', JSON.stringify(summary));
+
+                // Intentar enviar al servidor PHP (solo funciona si está publicado con PHP)
+                fetch('collect_responses.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(summary)
+                }).then(resp => resp.json()).then(result => {
+                    console.log('Envío al servidor completado:', result);
+                }).catch(err => {
+                    console.warn('No se pudo enviar al servidor (si estás en local, ignora esto):', err);
+                });
+
+            } catch (err) {
+                console.warn('Error guardando resultado:', err);
+            }
+
+            // BUG CORREGIDO: la redirección ahora está dentro del bloque de éxito,
+            // después de validar nombre y respuestas correctamente
+            setTimeout(() => { window.location.href = 'IA.html'; }, 800);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            form.reset();
+            resultDiv.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

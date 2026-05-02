@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asistente Vocacional IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161923;
+      --surface2: #1e2330;
+      --border: #2a3045;
+      --accent: #5b8af5;
+      --accent2: #8b5cf6;
+      --accent-glow: rgba(91,138,245,0.18);
+      --text: #e8ecf5;
+      --muted: #7a849e;
+      --user-bg: #1a2540;
+      --bot-bg: #161923;
+      --success: #34d399;
+      --font-mono: 'Space Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      overflow: hidden;
+    }
+
+    /* Fondo animado con puntos */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(91,138,245,0.08) 1px, transparent 0);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .shell {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .brand-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    .status-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .header-actions {
+      display: flex; gap: 8px;
+    }
+
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* CHAT AREA */
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    #chat::-webkit-scrollbar { width: 4px; }
+    #chat::-webkit-scrollbar-track { background: transparent; }
+    #chat::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* MENSAJES */
+    .msg {
+      display: flex;
+      gap: 10px;
+      animation: slide-in 0.25s ease;
+      max-width: 100%;
+    }
+
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.user { flex-direction: row-reverse; }
+
+    .avatar {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .msg.bot .avatar {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .msg.user .avatar {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .bubble {
+      max-width: calc(100% - 44px);
+      padding: 12px 15px;
+      border-radius: 12px;
+      line-height: 1.6;
+      font-size: 14.5px;
+    }
+
+    .msg.bot .bubble {
+      background: var(--bot-bg);
+      border: 1px solid var(--border);
+      border-top-left-radius: 3px;
+      color: var(--text);
+    }
+
+    .msg.user .bubble {
+      background: var(--user-bg);
+      border: 1px solid rgba(91,138,245,0.3);
+      border-top-right-radius: 3px;
+      color: var(--text);
+    }
+
+    .bubble .sender {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .msg.bot .bubble .sender { color: var(--accent); }
+    .msg.user .bubble .sender { color: var(--muted); }
+
+    /* Quick actions chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: rgba(91,138,245,0.1);
+      border: 1px solid rgba(91,138,245,0.25);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: var(--font-body);
+    }
+
+    .chip:hover {
+      background: rgba(91,138,245,0.22);
+      border-color: var(--accent);
+    }
+
+    /* Typing indicator */
+    .typing {
+      display: flex; gap: 4px; align-items: center; padding: 4px 0;
+    }
+    .typing span {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: bounce 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%,60%,100% { transform: translateY(0); opacity: 0.5; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* INPUT AREA */
+    .input-area {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    #userInput {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      transition: border-color 0.2s;
+      line-height: 1.5;
+    }
+
+    #userInput::placeholder { color: var(--muted); }
+    #userInput:focus { border-color: var(--accent); }
+
+    #sendBtn {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.2s, transform 0.1s;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    #sendBtn:hover { opacity: 0.88; }
+    #sendBtn:active { transform: scale(0.95); }
+    #sendBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    #sendBtn svg { width: 18px; height: 18px; fill: white; }
+
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 7px;
+      text-align: center;
+    }
+
+    /* Error chip */
+    .error-bubble {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #f87171;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .shell { max-width: 100%; }
+      #chat { padding: 16px 12px; }
+      .input-area { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🎓</div>
+      <div>
+        <div class="brand-name">ASISTENTE VOCACIONAL</div>
+        <div class="status-dot"><span class="dot"></span> En línea</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-ghost" onclick="clearChat()">Limpiar</button>
+      <button class="btn-ghost" onclick="window.location.href='index.html'">📋 Test</button>
+    </div>
+  </header>
+
+  <div id="chat"></div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea id="userInput" placeholder="Escribe tu mensaje..." rows="1"></textarea>
+      <button id="sendBtn" onclick="sendMessage()" title="Enviar">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <div class="hint">Presiona Enter para enviar · Shift+Enter para nueva línea</div>
+  </div>
+</div>
+
+<script>
+  // ────────────────────────────────────────────
+  // HISTORIAL DE CONVERSACIÓN
+  // ────────────────────────────────────────────
+  let conversationHistory = [];
+  const SYSTEM_PROMPT = `Eres un asistente vocacional amigable y empático integrado en una aplicación de orientación para estudiantes. Tu nombre es "Asistente Vocacional".
+
+Tu rol principal es:
+1. Ayudar a los estudiantes a descubrir sus intereses y aptitudes vocacionales.
+2. Recomendar carreras y áreas de estudio según su perfil.
+3. Responder preguntas sobre universidades, carreras y el mundo laboral.
+4. Apoyar emocionalmente a jóvenes que están tomando decisiones importantes sobre su futuro.
+5. Si el usuario quiere hacer el test vocacional, dile que puede ir al test usando el botón "📋 Test" en la parte superior.
+
+Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasionalmente para hacer la conversación más amena. No uses Markdown con asteriscos ni almohadillas; escribe en texto plano.`;
+
+  // ────────────────────────────────────────────
+  // RENDER DE MENSAJES
+  // ────────────────────────────────────────────
+  function escHtml(t) {
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function addMessage(role, content, chips = []) {
+    const chat = document.getElementById('chat');
+    const isUser = role === 'user';
+    const avatar = isUser ? '👤' : '🎓';
+    const senderLabel = isUser ? 'TÚ' : 'IA';
+
+    let chipsHtml = '';
+    if (chips.length) {
+      chipsHtml = '<div class="chips">' +
+        chips.map(c => `<button class="chip" onclick="quickSend('${escHtml(c)}')">${escHtml(c)}</button>`).join('') +
+        '</div>';
+    }
+
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `
+      <div class="avatar">${avatar}</div>
+      <div class="bubble">
+        <div class="sender">${senderLabel}</div>
+        <div class="content">${escHtml(content)}</div>
+        ${chipsHtml}
+      </div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function addTyping() {
+    const chat = document.getElementById('chat');
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.id = 'typing-indicator';
+    div.innerHTML = `
+      <div class="avatar">🎓</div>
+      <div class="bubble">
+        <div class="sender">IA</div>
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  function clearChat() {
+    document.getElementById('chat').innerHTML = '';
+    conversationHistory = [];
+    showWelcome();
+  }
+
+  // ────────────────────────────────────────────
+  // WELCOME
+  // ────────────────────────────────────────────
+  function showWelcome() {
+    // Comprobar si hay resultado de test guardado
+    try {
+      const raw = localStorage.getItem('ultimo_test_vocacional');
+      if (raw) {
+        const data = JSON.parse(raw);
+        const nombre = data.name ? data.name : 'estudiante';
+        const top = data.top3?.[0]?.category || 'tu área de interés';
+        const msg = `¡Hola ${nombre}! Vi que completaste el test vocacional. Tu área con mayor puntaje fue "${top}". ¿Quieres que te cuente más sobre esa área o las carreras que podrías estudiar?`;
+        addMessage('assistant', msg, ['Sí, cuéntame más', 'Ver otras opciones', 'Tengo otra pregunta']);
+        conversationHistory.push({ role: 'assistant', content: msg });
+        localStorage.removeItem('ultimo_test_vocacional');
+        return;
+      }
+    } catch(e) {}
+
+    const welcome = '¡Hola! Soy tu asistente vocacional 🎓 Estoy aquí para ayudarte a descubrir qué carrera o área de estudio va mejor con tus intereses y talentos. ¿Por dónde quieres empezar?';
+    addMessage('assistant', welcome, [
+      '¿Qué carreras existen?',
+      'Quiero hacer el test vocacional',
+      '¿Cómo elijo mi carrera?',
+      'Tengo una duda específica'
+    ]);
+    conversationHistory.push({ role: 'assistant', content: welcome });
+  }
+
+  // ────────────────────────────────────────────
+  // CONFIGURACIÓN DEL PROXY
+  // ────────────────────────────────────────────
+  // 👇 Pega aquí la URL de tu Cloudflare Worker después de desplegarlo
+  // Ejemplo: 'https://mi-proxy.tuusuario.workers.dev'
+const PROXY_URL = 'https://vocacional-proxy.juancuellar1d.workers.dev';
+
+  // ────────────────────────────────────────────
+  // ENVÍO AL API DE CLAUDE (vía proxy)
+  // ────────────────────────────────────────────
+  async function callClaude(userText) {
+    conversationHistory.push({ role: 'user', content: userText });
+
+    // Verificar que el proxy esté configurado
+    if (PROXY_URL.includes('TU_WORKER')) {
+      conversationHistory.pop();
+      throw new Error('Falta configurar el PROXY_URL en IA.html. Mira las instrucciones en worker.js.');
+    }
+
+    const response = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || 'No pude generar una respuesta.';
+    conversationHistory.push({ role: 'assistant', content: reply });
+    return reply;
+  }
+
+  // ────────────────────────────────────────────
+  // ENVIAR MENSAJE
+  // ────────────────────────────────────────────
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const btn = document.getElementById('sendBtn');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    addMessage('user', text);
+
+    btn.disabled = true;
+    addTyping();
+
+    try {
+      const reply = await callClaude(text);
+      removeTyping();
+      addMessage('assistant', reply);
+    } catch (err) {
+      removeTyping();
+      const chat = document.getElementById('chat');
+      const div = document.createElement('div');
+      div.className = 'msg bot';
+      div.innerHTML = `
+        <div class="avatar">🎓</div>
+        <div class="bubble error-bubble">
+          ⚠️ Error al conectar con la IA: ${escHtml(err.message)}
+        </div>`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      // Quitar el último mensaje del historial para no contaminar el contexto
+      conversationHistory.pop();
+    } finally {
+      btn.disabled = false;
+      input.focus();
+    }
+  }
+
+  function quickSend(text) {
+    document.getElementById('userInput').value = text;
+    sendMessage();
+  }
+
+  // ────────────────────────────────────────────
+  // AUTO-RESIZE TEXTAREA
+  // ────────────────────────────────────────────
+  const textarea = document.getElementById('userInput');
+  textarea.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+
+  textarea.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // ────────────────────────────────────────────
+  // INIT
+  // ────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', showWelcome);
+</script>
+</body>
+</html>
