@@ -1,0 +1,275 @@
+/* ============================================================
+   styles.css — Test Vocacional + Chatbot
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --accent:    #4f46e5;
+  --accent2:   #06b6d4;
+  --bg:        #f0f4ff;
+  --card:      #ffffff;
+  --border:    #e2e8f0;
+  --text:      #1e293b;
+  --muted:     #64748b;
+  --success:   #10b981;
+  --radius:    12px;
+  --shadow:    0 4px 24px rgba(79,70,229,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── CONTAINER ─────────────────────────────────── */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* ── HEADER DEL TEST ────────────────────────────── */
+.test-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.test-header h2 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+
+.btn-chatbot {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+.btn-chatbot:hover { opacity: 0.88; color: white; }
+.btn-chatbot:active { transform: scale(0.97); }
+
+/* ── CAMPOS NOMBRE / GRUPO ──────────────────────── */
+.row.mb-3 { margin-bottom: 20px; }
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+}
+
+hr { border: none; border-top: 1.5px solid var(--border); margin: 20px 0 24px; }
+
+/* ── TÍTULO DE SECCIÓN ──────────────────────────── */
+h4.text-center {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── PREGUNTAS ──────────────────────────────────── */
+#vocationalTest p {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#vocationalTest input[type="radio"] {
+  accent-color: var(--accent);
+  width: 17px;
+  height: 17px;
+  margin-right: 8px;
+  cursor: pointer;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+#vocationalTest label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: pointer;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: white;
+  width: 100%;
+  transition: border-color 0.18s, background 0.18s;
+}
+#vocationalTest label:hover {
+  border-color: var(--accent);
+  background: rgba(79,70,229,0.04);
+}
+
+/* ── BOTONES ENVIAR / LIMPIAR ───────────────────── */
+.mt-4 { margin-top: 28px; }
+
+.btn {
+  padding: 11px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+}
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--muted);
+}
+.btn-secondary:hover { background: #cbd5e1; }
+
+.btn-outline-secondary {
+  background: white;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+}
+.btn-outline-secondary:hover { background: #f8fafc; }
+
+.ms-2 { margin-left: 10px; }
+
+/* ── RESULTADO ──────────────────────────────────── */
+#result {
+  margin-top: 32px;
+}
+
+#result .card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+#result .card-body {
+  padding: 24px;
+}
+
+#result .card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+#result h5 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+#result ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+#result ul li {
+  margin-bottom: 4px;
+  font-size: 14.5px;
+}
+
+#result hr {
+  margin: 16px 0;
+}
+
+.gap-2 { gap: 8px; }
+.flex-wrap { flex-wrap: wrap; }
+.d-flex { display: flex; }
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 640px) {
+  .container { padding: 16px 12px 40px; }
+
+  .test-header { flex-direction: column; align-items: flex-start; }
+
+  .row.mb-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .col-md-6 { width: 100%; }
+
+  #vocationalTest label {
+    font-size: 14px;
+    padding: 9px 10px;
+  }
+
+  .btn { padding: 10px 18px; font-size: 14px; }
+  .ms-2 { margin-left: 0; margin-top: 8px; }
+
+  .mt-4 { display: flex; flex-direction: column; gap: 8px; }
+
+  #result .card-body { padding: 16px; }
+}
+
+@media (min-width: 641px) {
+  .row.mb-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
