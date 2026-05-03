@@ -324,10 +324,21 @@
       font-size: 13px;
     }
 
+    /* Párrafos en respuestas */
+    .bubble .content p { margin-bottom: 10px; }
+    .bubble .content p:last-child { margin-bottom: 0; }
+
     @media (max-width: 600px) {
       .shell { max-width: 100%; }
-      #chat { padding: 16px 12px; }
-      .input-area { padding: 10px 12px; }
+      #chat { padding: 12px 10px; gap: 12px; }
+      .input-area { padding: 10px 10px 14px; }
+      .bubble { font-size: 14px; padding: 10px 12px; }
+      .brand-name { font-size: 11px; }
+      .brand-icon { width: 30px; height: 30px; font-size: 14px; }
+      .avatar { width: 28px; height: 28px; font-size: 13px; }
+      .chip { font-size: 12px; padding: 6px 11px; }
+      #userInput { font-size: 16px; }
+      .hint { font-size: 10px; }
     }
   </style>
 </head>
@@ -343,8 +354,7 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn-ghost" onclick="clearChat()">Limpiar</button>
-      <button class="btn-ghost" onclick="window.location.href='index.html'">📋 Test</button>
+      <button class="btn-ghost" onclick="clearChat()">🗑 Limpiar</button>
     </div>
   </header>
 
@@ -373,7 +383,7 @@ Tu rol principal es:
 2. Recomendar carreras y áreas de estudio según su perfil.
 3. Responder preguntas sobre universidades, carreras y el mundo laboral.
 4. Apoyar emocionalmente a jóvenes que están tomando decisiones importantes sobre su futuro.
-5. Si el usuario quiere hacer el test vocacional, dile que puede ir al test usando el botón "📋 Test" en la parte superior.
+5. Si el usuario quiere hacer el test vocacional, dile que lo llevarás directo al test.
 
 Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasionalmente para hacer la conversación más amena. No uses Markdown con asteriscos ni almohadillas; escribe en texto plano.`;
 
@@ -382,6 +392,22 @@ Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasi
   // ────────────────────────────────────────────
   function escHtml(t) {
     return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function formatContent(text) {
+    // Limpiar markdown de asteriscos y almohadillas
+    let clean = text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/#{1,6}\s+/g, '')
+      .replace(/^\s*[\*\-]\s+/gm, '• ');
+    // Convertir saltos de línea dobles en párrafos
+    const parrafos = clean.split(/\n{2,}/);
+    if (parrafos.length > 1) {
+      return parrafos.map(p => `<p>${escHtml(p.trim())}</p>`).join('');
+    }
+    // Saltos simples como <br>
+    return escHtml(clean).replace(/\n/g, '<br>');
   }
 
   function addMessage(role, content, chips = []) {
@@ -397,13 +423,15 @@ Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasi
         '</div>';
     }
 
+    const contentHtml = isUser ? escHtml(content) : formatContent(content);
+
     const div = document.createElement('div');
     div.className = `msg ${role}`;
     div.innerHTML = `
       <div class="avatar">${avatar}</div>
       <div class="bubble">
         <div class="sender">${senderLabel}</div>
-        <div class="content">${escHtml(content)}</div>
+        <div class="content">${contentHtml}</div>
         ${chipsHtml}
       </div>`;
     chat.appendChild(div);
@@ -457,11 +485,27 @@ Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasi
     } catch(e) {}
 
     const welcome = '¡Hola! Soy tu asistente vocacional 🎓 Estoy aquí para ayudarte a descubrir qué carrera o área de estudio va mejor con tus intereses y talentos. ¿Por dónde quieres empezar?';
-    addMessage('assistant', welcome, [
-      '¿Qué carreras existen?',
-      '¿Cómo elijo mi carrera?',
-      'Tengo una duda específica'
-    ]);
+    const chat = document.getElementById('chat');
+    const isUser = false;
+    const avatar = '🎓';
+    const senderLabel = 'IA';
+    const chipsHtml = '<div class="chips">' +
+      `<button class="chip" onclick="quickSend('¿Qué carreras existen?')">¿Qué carreras existen?</button>` +
+      `<button class="chip" onclick="window.location.href='index.html'">Hacer el test vocacional</button>` +
+      `<button class="chip" onclick="quickSend('¿Cómo elijo mi carrera?')">¿Cómo elijo mi carrera?</button>` +
+      `<button class="chip" onclick="quickSend('Tengo una duda específica')">Tengo una duda específica</button>` +
+      '</div>';
+    const div = document.createElement('div');
+    div.className = 'msg assistant';
+    div.innerHTML = `
+      <div class="avatar">${avatar}</div>
+      <div class="bubble">
+        <div class="sender">${senderLabel}</div>
+        <div class="content">${escHtml(welcome)}</div>
+        ${chipsHtml}
+      </div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
     conversationHistory.push({ role: 'assistant', content: welcome });
   }
 
@@ -470,7 +514,7 @@ Responde SIEMPRE en español. Sé conciso, cálido y motivador. Usa emojis ocasi
   // ────────────────────────────────────────────
   // 👇 Pega aquí la URL de tu Cloudflare Worker después de desplegarlo
   // Ejemplo: 'https://mi-proxy.tuusuario.workers.dev'
-const PROXY_URL = 'https://vocacional-proxy.juancuellar1d.workers.dev';
+  const PROXY_URL = 'https://vocacional-proxy.juancuellar1d.workers.dev';
 
   // ────────────────────────────────────────────
   // ENVÍO AL API DE CLAUDE (vía proxy)

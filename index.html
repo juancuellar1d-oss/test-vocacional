@@ -373,24 +373,6 @@
             Object.values(counts).forEach(v => { if (v > max) max = v; });
             const winners = Object.keys(counts).filter(k => counts[k] === max);
 
-            // Mostrar resultado
-            let html = '<div class="card"><div class="card-body">';
-            html += '<h4 class="card-title">Resultado del Test</h4>';
-            html += '<p>Has obtenido <strong>' + max + '</strong> respuestas en la(s) categoría(s): <em>' + winners.join(', ') + '</em>.</p>';
-            winners.forEach(w => {
-                const desc = descriptions[w] || 'Descripción no disponible.';
-                html += '<h5>' + w + '</h5><p>' + desc + '</p>';
-            });
-            html += '<hr><h6>Distribución de respuestas:</h6><ul>';
-            Object.keys(counts).forEach(k => { html += '<li>' + k + ': ' + counts[k] + '</li>'; });
-            html += '</ul>';
-            html += '<div class="mt-2"><a href="IA.html" class="btn btn-link">Volver al Chat</a></div>';
-            html += '</div></div>';
-
-            resultDiv.innerHTML = html;
-            resultDiv.style.display = 'block';
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-
             // Guardar top 3 en localStorage
             try {
                 const entries = Object.keys(counts).map(k => ({ category: k, count: counts[k] }));
@@ -405,7 +387,6 @@
                 };
                 localStorage.setItem('ultimo_test_vocacional', JSON.stringify(summary));
 
-                // Intentar enviar al servidor PHP (solo funciona si está publicado con PHP)
                 fetch('collect_responses.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -413,16 +394,40 @@
                 }).then(resp => resp.json()).then(result => {
                     console.log('Envío al servidor completado:', result);
                 }).catch(err => {
-                    console.warn('No se pudo enviar al servidor (si estás en local, ignora esto):', err);
+                    console.warn('No se pudo enviar al servidor:', err);
                 });
-
             } catch (err) {
                 console.warn('Error guardando resultado:', err);
             }
 
-            // BUG CORREGIDO: la redirección ahora está dentro del bloque de éxito,
-            // después de validar nombre y respuestas correctamente
-            setTimeout(() => { window.location.href = 'IA.html'; }, 800);
+            // Ordenar distribución de mayor a menor
+            const sortedCounts = Object.keys(counts).sort((a,b) => counts[b] - counts[a]);
+
+            // Mostrar resultado — SIN redirección automática
+            let html = '<div class="card"><div class="card-body">';
+            html += '<h4 class="card-title">🎉 Resultado del Test</h4>';
+            if (participantName) html += '<p><strong>Nombre:</strong> ' + participantName + (participantGroup ? ' &nbsp;|&nbsp; <strong>Grupo:</strong> ' + participantGroup : '') + '</p>';
+            html += '<p class="mt-2">Tu área vocacional principal es:</p>';
+            winners.forEach(w => {
+                const desc = descriptions[w] || 'Descripción no disponible.';
+                html += '<div style="margin:12px 0; padding:12px; background:#f8f9fa; border-left:4px solid #4f46e5; border-radius:6px;">';
+                html += '<h5 style="color:#4f46e5; margin-bottom:6px;">⭐ ' + w + ' (' + max + ' puntos)</h5>';
+                html += '<p style="margin:0;">' + desc + '</p></div>';
+            });
+            html += '<hr><h6>Distribución completa de respuestas:</h6><ul style="margin-top:8px;">';
+            sortedCounts.forEach(k => {
+                const isWinner = winners.includes(k);
+                html += '<li style="' + (isWinner ? 'font-weight:700;color:#4f46e5;' : '') + '">' + k + ': ' + counts[k] + ' pts' + (isWinner ? ' ✓' : '') + '</li>';
+            });
+            html += '</ul>';
+            html += '<div class="mt-3 d-flex gap-2 flex-wrap">';
+            html += '<a href="IA.html" class="btn btn-primary">💬 Ir al Asistente IA</a>';
+            html += '<button onclick="window.scrollTo({top:0,behavior:\'smooth\'})" class="btn btn-outline-secondary">🔝 Volver al inicio</button>';
+            html += '</div></div></div>';
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
         });
 
         resetBtn.addEventListener('click', () => {
